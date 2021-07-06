@@ -1,24 +1,31 @@
-﻿<Window x:Class="CryptoTracker.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CryptoTracker"
+        xmlns:Modules="clr-namespace:CryptoTracker.Modules" x:Class="CryptoTracker.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        Closing="Window_Closing">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
-        <TextBlock x:Name="textBlockCurrentPrice" TextWrapping="Wrap"/>
-        <ListView x:Name="listViewHoldings" Grid.Row="1">
-            <ListView.View>
-                <GridView x:Name="gvHoldings" AllowsColumnReorder="true" ColumnHeaderToolTip="Holdings">
-                    <GridViewColumn Width="40" Header="Token"></GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <TextBlock x:Name="textBlockCurrentPrice" TextWrapping="Wrap" Grid.Row="0"/>
+        <TabControl Grid.Row="1">
+            <TabItem Header="Positions">
+                <DataGrid Name="dgPositions"></DataGrid>
+            </TabItem>
+            <TabItem Header="Transactions">
+                <DataGrid Name="dgTransactions"></DataGrid>
+            </TabItem>
+            <TabItem Header="Add Transaction">
+                
+            </TabItem>
+        </TabControl>
+        
 
     </Grid>
 </Window>

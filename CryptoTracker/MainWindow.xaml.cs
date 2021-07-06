@@ -26,37 +26,26 @@ namespace CryptoTracker
         {
             InitializeComponent();
 
-            Position position1 = new Position
-            {
-                Token = "ADA",
-                Amount = 1000,
-                LastPrice = 1.00m,
-                AverageCost = 0.99m
-            };
-            position1.CalculateNetProfit();
+            DataHelper.ProcessData();
 
-            Position position2 = new Position
-            {
-                Token = "ONE",
-                Amount = 10000,
-                LastPrice = 0.09m,
-                AverageCost = 0.10m
-            };
-            position2.CalculateNetProfit();
+            dgPositions.ItemsSource = DataHelper.Positions;
+            dgTransactions.ItemsSource = DataHelper.Transactions;
 
-            Holdings holdings = new Holdings();
-            holdings.Positions.Add(position1);
-            holdings.Positions.Add(position2);
-
-            listViewHoldings.DataContext = holdings.Positions;
+            
         }
 
-        private async void btnGetPrice_Click(object sender, RoutedEventArgs e)
+
+        private void GetPrice()
         {
-            //textBlockCurrentPrice.Text = "Fetching Price";
+            textBlockCurrentPrice.Text = "Fetching Price";
 
-            //textBlockCurrentPrice.Text = await APIHelper.GetPrice();
+            //textBlockCurrentPrice.Text = DataHelper.GetPrices();
 
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            DataHelper.SaveFile();
         }
     }
 }

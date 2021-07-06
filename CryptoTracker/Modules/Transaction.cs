@@ -4,16 +4,18 @@ using System.Text;
 
 namespace CryptoTracker.Modules
 {
-    class Transaction
+    public class Transaction
     {
-        //Date
-        public DateTime Date { get; set; }
 
         //Token
-        public Token TokenType { get; set; }
+        public string Token { get; set; }
+        //Date
+        public string Date { get; set; }
+
+        public double Amount { get; set; }
 
         //transaction type
-        public TransactionType TranType { get; set; }
+        public TransactionType transType { get; set; }
 
         //average cost
         public decimal AverageCost { get; set; }
@@ -21,22 +23,16 @@ namespace CryptoTracker.Modules
         //fee
         public decimal Fee { get; set; }
 
-        #region enums
-        public enum Token
-        {
-            ADA,
-            ONE,
-            VET, 
-            BTT
-        }
-
         public enum TransactionType
         {
             BUY,
-            SELL,
-            TRANSFER
+            SELL
         }
-        #endregion
+
+        public override string ToString()
+        {
+            return $"Token: {Token}, Date: {Date}, Amount: {Amount}, Transaction Type: {transType}, Average Cost: {AverageCost}, Fee: {Fee}";
+        }
 
     }
 }
