@@ -21,7 +21,7 @@ namespace CryptoTracker.Modules
         public decimal AverageCost { get; set; }
 
         //fee
-        public decimal Fee { get; set; }
+        public double Fee { get; set; }
 
         public enum TransactionType
         {

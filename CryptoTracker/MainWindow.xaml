@@ -14,15 +14,43 @@
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
         <TextBlock x:Name="textBlockCurrentPrice" TextWrapping="Wrap" Grid.Row="0"/>
+        <!--<Button Name="btnSave" Content="Save" Grid.Row="0" Click="btnSave_Click"/>-->
         <TabControl Grid.Row="1">
-            <TabItem Header="Positions">
+            <TabItem Name="tiPositions" Header="Positions">
                 <DataGrid Name="dgPositions"></DataGrid>
             </TabItem>
             <TabItem Header="Transactions">
                 <DataGrid Name="dgTransactions"></DataGrid>
             </TabItem>
             <TabItem Header="Add Transaction">
-                
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnAddTransaction" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2" Content="Add Transaction" Click="btnAddTransaction_Click"/>
+                    <Label Content="Token" Grid.Row="0" Grid.Column="0"/>
+                    <Label Content="Date" Grid.Row="0" Grid.Column="1"/>
+                    <Label Content="Amount" Grid.Row="0" Grid.Column="2"/>
+                    <Label Content="Transaction Type" Grid.Row="0" Grid.Column="3"/>
+                    <Label Content="Average Cost" Grid.Row="0" Grid.Column="4"/>
+                    <Label Content="Fee" Grid.Row="0" Grid.Column="5"/>
+                    <TextBox Name="txtToken" Grid.Row="1" Grid.Column="0"/>
+                    <DatePicker Name="dtDate" Grid.Row="1" Grid.Column="1"/>
+                    <TextBox Name="txtAmount" Grid.Row="1" Grid.Column="2"/>
+                    <ComboBox Name="cmbTransactionType" Grid.Row="1" Grid.Column="3"/>
+                    <TextBox Name="txtAverageCost" Grid.Row="1" Grid.Column="4"/>
+                    <TextBox Name="txtFee" Grid.Row="1" Grid.Column="5"/>
+                </Grid>
             </TabItem>
         </TabControl>
         

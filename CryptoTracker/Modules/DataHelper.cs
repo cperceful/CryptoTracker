@@ -21,22 +21,22 @@ namespace CryptoTracker
         private static string file = "transactions.json";
         private static string fullPath = $"{path}\\{file}";
 
+        private static string pantryRequest = $"https://getpantry.cloud/apiv1/pantry/{Credentials.PANTRY_ID}/basket/transactions";
+
         public static List<Transaction> Transactions { get; private set; }
         public static Dictionary<string, List<Transaction>> TransactionDictionary { get; private set; }
         public static List<Position> Positions { get; private set; }
         public static string Ids { get; private set; }
 
-        public static void ProcessData()
+        public static async Task ProcessData()
         {
-            LoadFile();
+            await LoadFile();
+            //LoadFileOld();
             CalculatePositions();
             GetAllTransactions();
             GetIds();
             GetPrices();
-            foreach (Position position in Positions)
-            {
-                position.CalculateNetProfit();
-            }
+            GetProfits();
         }
 
         public static void AddTransaction(Transaction transaction)
@@ -79,14 +79,22 @@ namespace CryptoTracker
             }
         }
 
-        public static void SaveFile()
+        public static async Task SaveFile()
         {
             string json = JsonSerializer.Serialize(TransactionDictionary);
-            File.WriteAllText(fullPath, json);
-            
+            StringContent stringContent = new StringContent(json, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.PostAsync(pantryRequest, stringContent);
+            response.EnsureSuccessStatusCode();
         }
 
-        private static void LoadFile()
+        private static async Task LoadFile()
+        {
+
+            string response = await client.GetStringAsync(pantryRequest);
+            TransactionDictionary = JsonSerializer.Deserialize<Dictionary<string, List<Transaction>>>(response);
+        }
+
+        private static void LoadFileOld()
         {
             string fileContents = File.ReadAllText(fullPath);
             if (!string.IsNullOrWhiteSpace(fileContents))
@@ -103,14 +111,24 @@ namespace CryptoTracker
                 Position position = new Position();
                 position.Token = transactionList.Key;
                 decimal totalCost = 0.00m;
+                double amountPurchased = 0;
                 foreach (Transaction transaction in transactionList.Value)
                 {
-                    position.Amount += transaction.Amount;
-                    totalCost += transaction.AverageCost;
+                    amountPurchased += transaction.Amount;
+                    totalCost += transaction.AverageCost * (decimal)transaction.Amount;
                     position.TotalFees += transaction.Fee;
                 }
-                position.AverageCost = Math.Round(totalCost / transactionList.Value.Count, 2);
+                position.Amount = amountPurchased - position.TotalFees;
+                position.AverageCost = Math.Round(totalCost / (decimal)position.Amount, 2);
                 Positions.Add(position);
+            }
+        }
+
+        private static void GetProfits()
+        {
+            foreach (Position position in Positions)
+            {
+                position.CalculateNetProfit();
             }
         }
 

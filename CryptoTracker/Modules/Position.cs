@@ -27,13 +27,13 @@ namespace CryptoTracker.Modules
         //Net Profit
         public decimal NetProfit { get; set; }
 
-        public decimal TotalFees { get; set; }
+        public double TotalFees { get; set; }
 
         public Position()
         {
             Amount = 0;
             AverageCost = 0.00m;
-            TotalFees = 0.00m;
+            TotalFees = 0.00;
         }
 
         public void CalculateNetProfit()
